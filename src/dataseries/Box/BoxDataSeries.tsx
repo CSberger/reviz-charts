@@ -6,7 +6,7 @@ import range from "lodash.range";
 import Group from "../../components/Group";
 import Rect from "../../components/Rect";
 import { ScaleType, makeScale } from "../utils/makeScale";
-import { AxisDefinition, DataSeriesFrame, Frame } from "../types";
+import { AxisDefinition, DataSeriesFrame, Frame, OrientationEnum } from "../types";
 import VerticalBox from "./VerticalBox";
 import HorizontalBox from "./HorizontalBox";
 
@@ -55,12 +55,12 @@ function BoxDataSeries({
     let positionRange: [number, number] = [0, 0];
     let valueScaleRange: [number, number] = [0, 0];
     switch (orientation) {
-        case "vertical":
+        case OrientationEnum.vertical:
             BoxValueScale = makeScale(axisDefinitions.y.scale as ScaleType, axisDefinitions.y.domain);
             positionRange = [frame.x, frame.x + frame.width];
             valueScaleRange = [0, frame.height];
             break;
-        case "horizontal":
+        case OrientationEnum.horizontal:
             BoxValueScale = makeScale(axisDefinitions.x.scale as ScaleType, axisDefinitions.x.domain);
             positionRange = [frame.y + frame.height, frame.y];
             valueScaleRange = [frame.x, frame.x + frame.width];
@@ -72,6 +72,7 @@ function BoxDataSeries({
     pscale.paddingInner(innerPadding);
     pscale.paddingOuter(outerPadding);
     const boxVerticalPositionScale = BoxValueScale.copy().range([frame.y + frame.height, frame.y]);
+    const boxHorizontalPositionScale = BoxValueScale.copy().range([frame.x, frame.x + frame.width]);
     console.warn(`BoxValueScale.domain(): ${BoxValueScale.domain()} BoxValueScale.range(): ${BoxValueScale.range()}`)
     return (
         <Group>
@@ -104,7 +105,7 @@ function BoxDataSeries({
                 minValue = fillStats ? Math.min(...values.filter(v => v > lowerFence)) : minValue;
                 outliers = fillStats ? values.filter(v => v > upperFence || v < lowerFence) : outliers;
                 const valuesInRange = values.filter(v => v < upperFence && v > lowerFence);
-                const outlierPositions = outliers.map((outlier) => boxVerticalPositionScale(outlier));
+                const outlierPositions = orientation === 'vertical' ? outliers.map((outlier) => boxVerticalPositionScale(outlier)): outliers.map((outlier) => boxHorizontalPositionScale(outlier));
                 console.assert(outliers.length > 0);
                 const valuesPositions = fillStats ? valuesInRange.map((val) => boxVerticalPositionScale(val)) : values.map((val) => BoxValueScale(val));
                 console.warn(`i: ${i}: minValue: ${minValue}, minValuePosition: ${BoxValueScale(minValue)} `)

@@ -59,7 +59,6 @@ export default function HorizontalBox ({
     const boxLength = (q3Position as number) - (q1Position as number);
     
     const boxWidthCenter = height * boxWidthFraction / 2 + y;
-    // console.warn(`boxWidthCenter: ${boxWidthCenter}, boxWidth: ${boxWidthFraction}, boxHeight: ${boxLength}, width: ${width}, x: ${x}`);
     return (
         <Group>
 
@@ -91,9 +90,9 @@ export default function HorizontalBox ({
             />
             <Line
                 className="box-median"
-                fill="black"
+                fill="grey"
                 path={[[medianPosition as number, y], [medianPosition as number, y + height*boxWidthFraction]]}
-                stroke="black"
+                stroke="grey"
                 strokeWidth={1}
                 strokeDasharray="1,1"
             />

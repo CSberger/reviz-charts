@@ -120,12 +120,12 @@ function BarDataSeries({
                 fill="none"
             />
             {dataPoints.map(({value, ...otherProps}, i) => {
-                const x = orientation === 'vertical' ? pscale(i) : frame.x;
-                const width = orientation === 'vertical' ? pscale.bandwidth() : barValueScale(value);
+                const x = orientation === OrientationEnum.vertical ? pscale(i) : frame.x;
+                const width = orientation === OrientationEnum.vertical ? pscale.bandwidth() : barValueScale(value);
                 //console.assert(value == 4, `orientation == ${orientation} value is 5, domain is ${barValueScale.domain()}, range is ${barValueScale.range()}}`);
-                const height = orientation === 'vertical' ? barValueScale(value) : pscale.bandwidth();
-                const y = orientation === 'vertical' ? frame.height - height + frame.y : pscale(i);
-                const Bar = orientation === 'vertical' ? VerticalBar : HorizontalBar;
+                const height = orientation === OrientationEnum.vertical ? barValueScale(value) : pscale.bandwidth();
+                const y = orientation === OrientationEnum.vertical ? frame.height - height + frame.y : pscale(i);
+                const Bar = orientation === OrientationEnum.vertical ? VerticalBar : HorizontalBar;
                 return (
                     <Bar
                         dataPointProps={{value, ...otherProps}}

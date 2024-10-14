@@ -7,13 +7,14 @@ import {  OrientationEnum } from '../dataseries/types';
 import BarChart from './Bar';
 import { ScaleType } from '../reviz-charts';
 import { baseTheme } from '../Theme';
+import { IDataPoint } from '../dataseries/Bars/BarDataSeries';
 
 
 interface HistogramProps extends ChartProps {
     colorMapper?: (dataPoint: any, theme: any) => string;
-    aggregationFunction?: (dataPoints: any[], numBins?: number, domain?: [number, number]) => IDataPoint[],
+    aggregationFunction?: (dataPoints: any[], numBins: number, domain: [number, number]) => IDataPoint[],
     dataPoints: any[],
-    numBins?: number,
+    numBins: number,
     orientation?: OrientationEnum;
     theme: any;
 }
@@ -31,8 +32,8 @@ export function binHistogram(dataPoints: any[], numBins: number, domain: [number
 export default function Histogram ({
     colorMapper = (dataPoint: any, theme: any) => theme.colors.primary,
     dataPoints,
-    height,
-    width,
+    height, 
+    width, 
     aggregationFunction = binHistogram,
     numBins = 5,
     orientation = OrientationEnum.vertical,
